@@ -2,11 +2,11 @@ resource "aws_eks_node_group" "dev" {
   cluster_name    = aws_eks_cluster.dev-cluster.name
   node_group_name = "dev"
   node_role_arn   = aws_iam_role.node.arn
-  subnet_ids      = [module.vpc.private_subnet_id]
+  subnet_ids      = module.vpc.private_subnet_id
 
   scaling_config {
     desired_size = 1
-    max_size     = 2
+    max_size     = 5
     min_size     = 1
   }
 

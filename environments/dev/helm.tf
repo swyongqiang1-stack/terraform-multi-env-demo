@@ -11,7 +11,7 @@ resource "helm_release" "kube-prometheus-stack" {
 
   set {
     name  = "grafana.adminPassword"
-    value = "admin123"
+    value = var.password
   }
 
   depends_on = [aws_eks_node_group.dev]

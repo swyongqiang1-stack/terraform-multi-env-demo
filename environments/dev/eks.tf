@@ -9,10 +9,10 @@ resource "aws_eks_cluster" "dev-cluster" {
   version  = "1.35"
 
   vpc_config {
-    subnet_ids = [
+    subnet_ids = concat(
       module.vpc.public_subnet_id,
       module.vpc.private_subnet_id
-    ]
+    )
   }
   depends_on = [
     aws_iam_role_policy_attachment.cluster_AmazonEKSClusterPolicy

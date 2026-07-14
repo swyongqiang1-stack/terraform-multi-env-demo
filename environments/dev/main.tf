@@ -36,6 +36,7 @@ provider "helm" {
 module "vpc" {
   source = "../../modules/vpc"
   cidr_block = var.cidr_block
-  subnet = var.subnet
-  zone = var.zone
+  public_subnet = var.public_subnet
+  private_subnet = var.private_subnet
+  AZ = var.AZ
 }
