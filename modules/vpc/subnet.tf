@@ -1,15 +1,16 @@
-resource "aws_subnet" "public_a" {
-  vpc_id     = aws_vpc.main.id
-  cidr_block = var.subnet[0]
-  availability_zone = var.zone[0]
+resource "aws_subnet" "public" {
+  count = 3
+  vpc_id = aws_vpc.main.id
+  cidr_block = var.public_subnet[count.index]
+  availability_zone = var.AZ[count.index]
 
   tags = {
-    Name = "public_a"
+    Name = "public_subnet_${count.index}"
   }
 }
 
 
-resource "aws_route_table" "public_a" {
+resource "aws_route_table" "public" {
   vpc_id = aws_vpc.main.id
 
   route {
@@ -18,46 +19,49 @@ resource "aws_route_table" "public_a" {
   }
 
   tags = {
-    Name = "public_a"
+    Name = "public_route"
   }
 }
 
-resource "aws_route_table_association" "public_a" {
-  subnet_id      = aws_subnet.public_a.id
-  route_table_id = aws_route_table.public_a.id
+resource "aws_route_table_association" "public" {
+  count = 3
+  subnet_id      = aws_subnet.public[count.index].id
+  route_table_id = aws_route_table.public.id
 }
 
 
 
 
 
-resource "aws_subnet" "private_a" {
+resource "aws_subnet" "private" {
+  count = 3
   vpc_id     = aws_vpc.main.id
-  cidr_block = var.subnet[1]
-  
-
-  tags = {
-    Name = "private_a"
+  cidr_block = var.private_subnet[count.index]
+  availability_zone = var.AZ[count.index]
+    tags = {
+    Name = "private_subnet_${count.index}"
   }
 }
 
 
-resource "aws_route_table" "private_a" {
+resource "aws_route_table" "private" {
+  count = 3
   vpc_id = aws_vpc.main.id
 
   route {
     cidr_block = "0.0.0.0/0"
-    nat_gateway_id = aws_nat_gateway.nat.id
+    nat_gateway_id = aws_nat_gateway.nat[count.index].id
   }
 
   tags = {
-    Name = "private_a"
+    Name = "private_route${count.index}"
   }
 }
 
-resource "aws_route_table_association" "private_a" {
-  subnet_id      = aws_subnet.private_a.id
-  route_table_id = aws_route_table.private_a.id
+resource "aws_route_table_association" "private" {
+  count = 3
+  subnet_id      = aws_subnet.private[count.index].id
+  route_table_id = aws_route_table.private[count.index].id
 }
 
 

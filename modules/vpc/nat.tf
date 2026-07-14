@@ -1,14 +1,16 @@
 resource "aws_eip" "lb" {
+  count = 3
   domain   = "vpc"
 }
 
 
 resource "aws_nat_gateway" "nat" {
-  allocation_id = aws_eip.lb.id
-  subnet_id     = aws_subnet.public_a.id
+  count = 3
+  allocation_id = aws_eip.lb[count.index].id
+  subnet_id     = aws_subnet.public[count.index].id
 
   tags = {
-    Name = "gw NAT"
+    Name = "gw NAT${count.index}"
   }
 
   # To ensure proper ordering, it is recommended to add an explicit dependency
