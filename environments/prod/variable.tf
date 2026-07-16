@@ -2,11 +2,15 @@ variable "cidr_block" {
     type = string
 }
 
-variable "public_subnet_id" {
-    type = string
+variable "public_subnet" {
+    type = list(string)
 }
 
-variable "private_subnet_id" {
+variable "private_subnet" {
+    type = list(string)
+}
+
+variable "AZ" {
     type = list(string)
 }
 
