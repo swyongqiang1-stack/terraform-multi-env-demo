@@ -11,3 +11,7 @@ resource "aws_eks_addon" "dns" {
 }
 
 
+resource "aws_eks_addon" "kube_proxy" {
+  cluster_name                = aws_eks_cluster.dev-cluster.name
+  addon_name                  = "kube-proxy"
+}
